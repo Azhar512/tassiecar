@@ -7,6 +7,7 @@ const navItems = [
   { name: 'Home', path: '/' },
   { name: 'Vehicles', path: '/vehicles' },
   { name: 'Locations', path: '/locations' },
+  { name: 'Manage Booking', path: '/manage-booking' },
   { name: 'About', path: '/about' },
   { name: 'Contact', path: '/contact' },
 ];
@@ -53,9 +54,8 @@ const Header = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`link-underline font-medium transition-colors ${textColor} hover:text-secondary ${
-                  location.pathname === item.path ? 'text-secondary' : ''
-                }`}
+                className={`link-underline font-medium transition-colors ${textColor} hover:text-secondary ${location.pathname === item.path ? 'text-secondary' : ''
+                  }`}
               >
                 {item.name}
               </Link>
@@ -87,9 +87,8 @@ const Header = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`text-foreground font-medium py-3 px-4 rounded-lg hover:bg-muted transition-colors animate-fade-in ${
-                    location.pathname === item.path ? 'bg-muted text-secondary' : ''
-                  }`}
+                  className={`text-foreground font-medium py-3 px-4 rounded-lg hover:bg-muted transition-colors animate-fade-in ${location.pathname === item.path ? 'bg-muted text-secondary' : ''
+                    }`}
                   style={{ animationDelay: `${index * 50}ms` }}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >

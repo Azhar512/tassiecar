@@ -1,23 +1,41 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { MapPin, Calendar, Car, Search } from 'lucide-react';
+import { Car, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import heroImage from '@/assets/hero-car.jpg';
+import { LocationSelect } from '@/components/ui/LocationSelect';
+import { DateTimePicker } from '@/components/ui/DateTimePicker';
 
 const HeroSection = () => {
   const navigate = useNavigate();
+  const [sameReturnLocation, setSameReturnLocation] = useState(true);
   const [formData, setFormData] = useState({
     pickupLocation: '',
     dropoffLocation: '',
-    pickupDate: '',
-    returnDate: '',
+    pickupDate: null as Date | null,
+    returnDate: null as Date | null,
     vehicleType: '',
   });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate('/vehicles');
+
+    // Build query params
+    const params = new URLSearchParams();
+    if (formData.pickupLocation) params.set('pickupLocation', formData.pickupLocation);
+    if (!sameReturnLocation && formData.dropoffLocation) {
+      params.set('dropoffLocation', formData.dropoffLocation);
+    }
+    if (formData.pickupDate) params.set('pickupDate', formData.pickupDate.toISOString());
+    if (formData.returnDate) params.set('returnDate', formData.returnDate.toISOString());
+    if (formData.vehicleType) params.set('vehicleType', formData.vehicleType);
+
+    navigate(`/vehicles?${params.toString()}`);
   };
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -46,65 +64,47 @@ const HeroSection = () => {
         {/* Booking Form */}
         <div className="glass-dark rounded-2xl p-6 md:p-8 max-w-5xl mx-auto animate-slide-up animation-delay-300">
           <form onSubmit={handleSearch} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Pickup Location */}
               <div className="lg:col-span-1">
                 <label className="block text-primary-foreground/70 text-sm font-medium mb-2">
                   Pickup Location
                 </label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-foreground/50" />
-                  <select
-                    value={formData.pickupLocation}
-                    onChange={(e) => setFormData({ ...formData, pickupLocation: e.target.value })}
-                    className="input-glass pl-10 appearance-none cursor-pointer"
-                  >
-                    <option value="" className="text-foreground">Select location</option>
-                    <option value="hobart" className="text-foreground">Hobart</option>
-                    <option value="launceston" className="text-foreground">Launceston</option>
-                    <option value="devonport" className="text-foreground">Devonport</option>
-                    <option value="hobart-airport" className="text-foreground">Hobart Airport</option>
-                    <option value="launceston-airport" className="text-foreground">Launceston Airport</option>
-                  </select>
-                </div>
+                <LocationSelect
+                  value={formData.pickupLocation}
+                  onChange={(value) => setFormData({ ...formData, pickupLocation: value })}
+                  placeholder="Select location"
+                  className="input-glass"
+                />
               </div>
 
-              {/* Drop-off Location */}
-              <div className="lg:col-span-1">
-                <label className="block text-primary-foreground/70 text-sm font-medium mb-2">
-                  Drop-off Location
-                </label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-foreground/50" />
-                  <select
+              {/* Drop-off Location - Conditional */}
+              {!sameReturnLocation && (
+                <div className="lg:col-span-1">
+                  <label className="block text-primary-foreground/70 text-sm font-medium mb-2">
+                    Drop-off Location
+                  </label>
+                  <LocationSelect
                     value={formData.dropoffLocation}
-                    onChange={(e) => setFormData({ ...formData, dropoffLocation: e.target.value })}
-                    className="input-glass pl-10 appearance-none cursor-pointer"
-                  >
-                    <option value="" className="text-foreground">Same as pickup</option>
-                    <option value="hobart" className="text-foreground">Hobart</option>
-                    <option value="launceston" className="text-foreground">Launceston</option>
-                    <option value="devonport" className="text-foreground">Devonport</option>
-                    <option value="hobart-airport" className="text-foreground">Hobart Airport</option>
-                    <option value="launceston-airport" className="text-foreground">Launceston Airport</option>
-                  </select>
+                    onChange={(value) => setFormData({ ...formData, dropoffLocation: value })}
+                    placeholder="Select location"
+                    className="input-glass"
+                  />
                 </div>
-              </div>
+              )}
 
               {/* Pickup Date */}
               <div className="lg:col-span-1">
                 <label className="block text-primary-foreground/70 text-sm font-medium mb-2">
                   Pickup Date
                 </label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-foreground/50" />
-                  <input
-                    type="date"
-                    value={formData.pickupDate}
-                    onChange={(e) => setFormData({ ...formData, pickupDate: e.target.value })}
-                    className="input-glass pl-10"
-                  />
-                </div>
+                <DateTimePicker
+                  selected={formData.pickupDate}
+                  onChange={(date) => setFormData({ ...formData, pickupDate: date })}
+                  minDate={today}
+                  placeholder="Select date"
+                  className="input-glass"
+                />
               </div>
 
               {/* Return Date */}
@@ -112,15 +112,13 @@ const HeroSection = () => {
                 <label className="block text-primary-foreground/70 text-sm font-medium mb-2">
                   Return Date
                 </label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-foreground/50" />
-                  <input
-                    type="date"
-                    value={formData.returnDate}
-                    onChange={(e) => setFormData({ ...formData, returnDate: e.target.value })}
-                    className="input-glass pl-10"
-                  />
-                </div>
+                <DateTimePicker
+                  selected={formData.returnDate}
+                  onChange={(date) => setFormData({ ...formData, returnDate: date })}
+                  minDate={formData.pickupDate || tomorrow}
+                  placeholder="Select date"
+                  className="input-glass"
+                />
               </div>
 
               {/* Vehicle Type */}
@@ -129,7 +127,7 @@ const HeroSection = () => {
                   Vehicle Type
                 </label>
                 <div className="relative">
-                  <Car className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-foreground/50" />
+                  <Car className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-primary-foreground/50 pointer-events-none z-10" />
                   <select
                     value={formData.vehicleType}
                     onChange={(e) => setFormData({ ...formData, vehicleType: e.target.value })}
@@ -143,6 +141,26 @@ const HeroSection = () => {
                   </select>
                 </div>
               </div>
+            </div>
+
+            {/* Same Return Location Checkbox */}
+            <div className="flex items-center gap-3 pt-2">
+              <input
+                type="checkbox"
+                id="sameLocation"
+                checked={sameReturnLocation}
+                onChange={(e) => {
+                  setSameReturnLocation(e.target.checked);
+                  if (e.target.checked) {
+                    setFormData({ ...formData, dropoffLocation: '' });
+                  }
+                }}
+                className="w-5 h-5 rounded border-2 border-primary-foreground/30 bg-background/20 
+                         checked:bg-secondary checked:border-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+              />
+              <label htmlFor="sameLocation" className="text-primary-foreground/80 text-sm font-medium cursor-pointer">
+                Same return location
+              </label>
             </div>
 
             <div className="flex justify-center pt-2">

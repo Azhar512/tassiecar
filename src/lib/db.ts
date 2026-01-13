@@ -40,8 +40,10 @@ export interface Message {
     phone: string;
     subject: string;
     message: string;
+    reply?: string;
     createdAt: string;
 }
+
 
 // Database types (snake_case as stored in Supabase)
 interface DbVehicle {
@@ -84,8 +86,10 @@ interface DbMessage {
     phone: string;
     subject: string;
     message: string;
+    reply?: string;
     created_at?: string;
 }
+
 
 // Initialize Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -151,9 +155,11 @@ function toMessage(dbMessage: DbMessage): Message {
         phone: dbMessage.phone,
         subject: dbMessage.subject,
         message: dbMessage.message,
+        reply: dbMessage.reply,
         createdAt: dbMessage.created_at || new Date().toISOString(),
     };
 }
+
 
 class SupabaseDB {
     // Vehicles
@@ -170,6 +176,50 @@ class SupabaseDB {
 
         return (data || []).map(toVehicle);
     }
+
+    async createVehicle(vehicle: Omit<Vehicle, 'id'>): Promise<Vehicle> {
+        const { data, error } = await supabase
+            .from('vehicles')
+            .insert(vehicle)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error creating vehicle:', error);
+            throw new Error(`Failed to create vehicle: ${error.message}`);
+        }
+
+        return toVehicle(data);
+    }
+
+    async updateVehicle(id: string, updates: Partial<Vehicle>): Promise<Vehicle> {
+        const { data, error } = await supabase
+            .from('vehicles')
+            .update(updates)
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error updating vehicle:', error);
+            throw new Error(`Failed to update vehicle: ${error.message}`);
+        }
+
+        return toVehicle(data);
+    }
+
+    async deleteVehicle(id: string): Promise<void> {
+        const { error } = await supabase
+            .from('vehicles')
+            .delete()
+            .eq('id', id);
+
+        if (error) {
+            console.error('Error deleting vehicle:', error);
+            throw new Error(`Failed to delete vehicle: ${error.message}`);
+        }
+    }
+
 
     async getVehicle(id: string): Promise<Vehicle | undefined> {
         const { data, error } = await supabase
@@ -237,6 +287,75 @@ class SupabaseDB {
         return (data || []).map(toBooking);
     }
 
+    async getBooking(id: string): Promise<Booking | undefined> {
+        const { data, error } = await supabase
+            .from('bookings')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) {
+            if (error.code === 'PGRST116') {
+                // Not found
+                return undefined;
+            }
+            console.error('Error fetching booking:', error);
+            throw new Error(`Failed to fetch booking: ${error.message}`);
+        }
+
+        return data ? toBooking(data) : undefined;
+    }
+
+    async updateBookingStatus(id: string, status: 'confirmed' | 'cancelled'): Promise<Booking> {
+        const { data, error } = await supabase
+            .from('bookings')
+            .update({ status })
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error updating booking status:', error);
+            throw new Error(`Failed to update booking status: ${error.message}`);
+        }
+
+        return toBooking(data);
+    }
+
+    async updateBooking(id: string, updates: Partial<Omit<Booking, 'id' | 'createdAt'>>): Promise<Booking> {
+        // Convert camelCase to snake_case for database
+        const dbUpdates: Record<string, any> = {};
+
+        if (updates.vehicleId !== undefined) dbUpdates.vehicle_id = updates.vehicleId;
+        if (updates.pickupLocation !== undefined) dbUpdates.pickup_location = updates.pickupLocation;
+        if (updates.dropoffLocation !== undefined) dbUpdates.dropoff_location = updates.dropoffLocation;
+        if (updates.pickupDate !== undefined) dbUpdates.pickup_date = updates.pickupDate;
+        if (updates.pickupTime !== undefined) dbUpdates.pickup_time = updates.pickupTime;
+        if (updates.returnDate !== undefined) dbUpdates.return_date = updates.returnDate;
+        if (updates.returnTime !== undefined) dbUpdates.return_time = updates.returnTime;
+        if (updates.firstName !== undefined) dbUpdates.first_name = updates.firstName;
+        if (updates.lastName !== undefined) dbUpdates.last_name = updates.lastName;
+        if (updates.email !== undefined) dbUpdates.email = updates.email;
+        if (updates.phone !== undefined) dbUpdates.phone = updates.phone;
+        if (updates.totalPrice !== undefined) dbUpdates.total_price = updates.totalPrice;
+        if (updates.extras !== undefined) dbUpdates.extras = updates.extras;
+        if (updates.status !== undefined) dbUpdates.status = updates.status;
+
+        const { data, error } = await supabase
+            .from('bookings')
+            .update(dbUpdates)
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error updating booking:', error);
+            throw new Error(`Failed to update booking: ${error.message}`);
+        }
+
+        return toBooking(data);
+    }
+
     // Messages
     async createMessage(message: Omit<Message, 'id' | 'createdAt'>): Promise<Message> {
         const dbMessage: Omit<DbMessage, 'id' | 'created_at'> = {
@@ -274,6 +393,33 @@ class SupabaseDB {
 
         return (data || []).map(toMessage);
     }
+
+    async updateMessage(id: string, updates: Partial<Message>): Promise<Message> {
+        const dbUpdates: Record<string, any> = {};
+
+        if (updates.name !== undefined) dbUpdates.name = updates.name;
+        if (updates.email !== undefined) dbUpdates.email = updates.email;
+        if (updates.phone !== undefined) dbUpdates.phone = updates.phone;
+        if (updates.subject !== undefined) dbUpdates.subject = updates.subject;
+        if (updates.message !== undefined) dbUpdates.message = updates.message;
+        if (updates.reply !== undefined) dbUpdates.reply = updates.reply;
+
+        const { data, error } = await supabase
+            .from('messages')
+            .update(dbUpdates)
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) {
+            console.error('Error updating message:', error);
+            throw new Error(`Failed to update message: ${error.message}`);
+        }
+
+        return toMessage(data);
+    }
+
 }
+
 
 export const db = new SupabaseDB();

@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
-import { MapPin, Calendar, Car, Check, ChevronRight, Navigation, Baby, Shield, Wifi, Loader2 } from 'lucide-react';
+import { Car, Check, ChevronRight, Navigation, Baby, Shield, Wifi, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { api } from '@/services/api';
 import { Vehicle } from '@/lib/db';
 import { differenceInDays, parseISO } from 'date-fns';
+import { LocationSelect } from '@/components/ui/LocationSelect';
+import { DateTimePicker, TimePicker } from '@/components/ui/DateTimePicker';
 
 const extras = [
   { id: 'gps', name: 'GPS Navigation', price: 10, icon: Navigation },
@@ -23,14 +25,15 @@ const Booking = () => {
   const [loading, setLoading] = useState(false);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loadingVehicles, setLoadingVehicles] = useState(true);
+  const [sameReturnLocation, setSameReturnLocation] = useState(true);
 
   const [formData, setFormData] = useState({
     pickupLocation: searchParams.get('pickupLocation') || '',
-    dropoffLocation: searchParams.get('dropoffLocation') || searchParams.get('pickupLocation') || '',
-    pickupDate: '',
-    pickupTime: '',
-    returnDate: '',
-    returnTime: '',
+    dropoffLocation: searchParams.get('dropoffLocation') || '',
+    pickupDate: null as Date | null,
+    pickupTime: null as Date | null,
+    returnDate: null as Date | null,
+    returnTime: null as Date | null,
     vehicleId: searchParams.get('vehicleId') || '',
     selectedExtras: [] as string[],
     firstName: '',
@@ -78,10 +81,7 @@ const Booking = () => {
 
     let days = 1;
     if (formData.pickupDate && formData.returnDate) {
-      // Simple day diff
-      const start = new Date(formData.pickupDate);
-      const end = new Date(formData.returnDate);
-      const diffTime = Math.abs(end.getTime() - start.getTime());
+      const diffTime = Math.abs(formData.returnDate.getTime() - formData.pickupDate.getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       days = diffDays > 0 ? diffDays : 1;
     }
@@ -96,9 +96,7 @@ const Booking = () => {
 
   const calculateDays = () => {
     if (formData.pickupDate && formData.returnDate) {
-      const start = new Date(formData.pickupDate);
-      const end = new Date(formData.returnDate);
-      const diffTime = Math.abs(end.getTime() - start.getTime());
+      const diffTime = Math.abs(formData.returnDate.getTime() - formData.pickupDate.getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       return diffDays > 0 ? diffDays : 1;
     }
@@ -116,11 +114,11 @@ const Booking = () => {
       const bookingData = {
         vehicleId: formData.vehicleId,
         pickupLocation: formData.pickupLocation,
-        dropoffLocation: formData.dropoffLocation,
-        pickupDate: formData.pickupDate,
-        pickupTime: formData.pickupTime,
-        returnDate: formData.returnDate,
-        returnTime: formData.returnTime,
+        dropoffLocation: sameReturnLocation ? formData.pickupLocation : formData.dropoffLocation,
+        pickupDate: formData.pickupDate?.toISOString() || '',
+        pickupTime: formData.pickupTime?.toLocaleTimeString() || '',
+        returnDate: formData.returnDate?.toISOString() || '',
+        returnTime: formData.returnTime?.toLocaleTimeString() || '',
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
@@ -160,9 +158,21 @@ const Booking = () => {
         return;
       }
 
-      const pickup = new Date(`${formData.pickupDate}T${formData.pickupTime}`);
-      const returnDate = new Date(`${formData.returnDate}T${formData.returnTime}`);
+      if (!sameReturnLocation && !formData.dropoffLocation) {
+        toast({
+          title: "Missing Information",
+          description: "Please select a drop-off location for one-way rental.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const now = new Date();
+      const pickup = new Date(formData.pickupDate);
+      pickup.setHours(formData.pickupTime.getHours(), formData.pickupTime.getMinutes());
+
+      const returnDate = new Date(formData.returnDate);
+      returnDate.setHours(formData.returnTime.getHours(), formData.returnTime.getMinutes());
 
       if (pickup < now) {
         toast({
@@ -176,7 +186,7 @@ const Booking = () => {
       if (returnDate <= pickup) {
         toast({
           title: "Invalid Return Date",
-          description: "Return date must be after the pickup date.",
+          description: "Return date and time must be after the pickup date and time.",
           variant: "destructive",
         });
         return;
@@ -207,7 +217,9 @@ const Booking = () => {
     setStep(step + 1);
   };
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
 
   if (step === 5) {
     return (
@@ -293,117 +305,116 @@ const Booking = () => {
                     <h2 className="font-display text-2xl font-semibold text-foreground mb-6">
                       Rental Details
                     </h2>
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Pickup Location
+                    <div className="space-y-6">
+                      {/* Same Return Location Checkbox */}
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          id="sameLocationBooking"
+                          checked={sameReturnLocation}
+                          onChange={(e) => {
+                            setSameReturnLocation(e.target.checked);
+                            if (e.target.checked) {
+                              setFormData({ ...formData, dropoffLocation: '' });
+                            }
+                          }}
+                          className="w-5 h-5 rounded border-2 border-border bg-background checked:bg-secondary checked:border-secondary focus:ring-2 focus:ring-secondary cursor-pointer"
+                        />
+                        <label htmlFor="sameLocationBooking" className="text-foreground text-sm font-medium cursor-pointer">
+                          Same return location
                         </label>
-                        <div className="relative">
-                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                          <select
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-foreground mb-2">
+                            Pickup Location *
+                          </label>
+                          <LocationSelect
                             value={formData.pickupLocation}
-                            onChange={(e) => setFormData({ ...formData, pickupLocation: e.target.value })}
-                            className="input-premium pl-10"
+                            onChange={(value) => setFormData({ ...formData, pickupLocation: value })}
+                            placeholder="Select location"
+                            className="input-premium"
                             required
-                          >
-                            <option value="">Select location</option>
-                            <option value="hobart">Hobart</option>
-                            <option value="launceston">Launceston</option>
-                            <option value="devonport">Devonport</option>
-                            <option value="hobart-airport">Hobart Airport</option>
-                            <option value="launceston-airport">Launceston Airport</option>
-                          </select>
+                          />
                         </div>
-                      </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Drop-off Location
-                        </label>
-                        <div className="relative">
-                          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                          <select
-                            value={formData.dropoffLocation}
-                            onChange={(e) => setFormData({ ...formData, dropoffLocation: e.target.value })}
-                            className="input-premium pl-10"
+                        {!sameReturnLocation && (
+                          <div>
+                            <label className="block text-sm font-medium text-foreground mb-2">
+                              Drop-off Location *
+                            </label>
+                            <LocationSelect
+                              value={formData.dropoffLocation}
+                              onChange={(value) => setFormData({ ...formData, dropoffLocation: value })}
+                              placeholder="Select location"
+                              className="input-premium"
+                              required
+                            />
+                          </div>
+                        )}
+
+                        <div>
+                          <label className="block text-sm font-medium text-foreground mb-2">
+                            Pickup Date *
+                          </label>
+                          <DateTimePicker
+                            selected={formData.pickupDate}
+                            onChange={(date) => setFormData({ ...formData, pickupDate: date })}
+                            minDate={today}
+                            placeholder="Select date"
+                            className="input-premium"
                             required
-                          >
-                            <option value="">Same as pickup</option>
-                            <option value="hobart">Hobart</option>
-                            <option value="launceston">Launceston</option>
-                            <option value="devonport">Devonport</option>
-                            <option value="hobart-airport">Hobart Airport</option>
-                            <option value="launceston-airport">Launceston Airport</option>
-                          </select>
+                          />
                         </div>
-                      </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Pickup Date
-                        </label>
-                        <div className="relative">
-                          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                          <input
-                            type="date"
-                            value={formData.pickupDate}
-                            onChange={(e) => setFormData({ ...formData, pickupDate: e.target.value })}
-                            className="input-premium pl-10"
-                            min={today}
+                        <div>
+                          <label className="block text-sm font-medium text-foreground mb-2">
+                            Pickup Time *
+                          </label>
+                          <TimePicker
+                            selected={formData.pickupTime}
+                            onChange={(time) => setFormData({ ...formData, pickupTime: time })}
+                            placeholder="Select time"
+                            className="input-premium"
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-foreground mb-2">
+                            Return Date *
+                          </label>
+                          <DateTimePicker
+                            selected={formData.returnDate}
+                            onChange={(date) => setFormData({ ...formData, returnDate: date })}
+                            minDate={formData.pickupDate || tomorrow}
+                            placeholder="Select date"
+                            className="input-premium"
+                            required
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-foreground mb-2">
+                            Return Time *
+                          </label>
+                          <TimePicker
+                            selected={formData.returnTime}
+                            onChange={(time) => setFormData({ ...formData, returnTime: time })}
+                            placeholder="Select time"
+                            className="input-premium"
                             required
                           />
                         </div>
                       </div>
 
-                      <div>
+                      <div className="mt-6">
                         <label className="block text-sm font-medium text-foreground mb-2">
-                          Pickup Time
-                        </label>
-                        <input
-                          type="time"
-                          value={formData.pickupTime}
-                          onChange={(e) => setFormData({ ...formData, pickupTime: e.target.value })}
-                          className="input-premium"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Return Date
+                          Vehicle Type *
                         </label>
                         <div className="relative">
-                          <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                          <input
-                            type="date"
-                            value={formData.returnDate}
-                            onChange={(e) => setFormData({ ...formData, returnDate: e.target.value })}
-                            className="input-premium pl-10"
-                            min={formData.pickupDate || today}
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Return Time
-                        </label>
-                        <input
-                          type="time"
-                          value={formData.returnTime}
-                          onChange={(e) => setFormData({ ...formData, returnTime: e.target.value })}
-                          className="input-premium"
-                          required
-                        />
-                      </div>
-
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          Vehicle Type
-                        </label>
-                        <div className="relative">
-                          <Car className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                          <Car className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none z-10" />
                           <select
                             value={formData.vehicleId}
                             onChange={(e) => setFormData({ ...formData, vehicleId: e.target.value })}
@@ -531,8 +542,8 @@ const Booking = () => {
                       Confirm Your Booking
                     </h2>
                     <div className="space-y-4 text-muted-foreground">
-                      <p><strong className="text-foreground">Pickup:</strong> {formData.pickupLocation || 'Not selected'} on {formData.pickupDate || 'Not selected'}</p>
-                      <p><strong className="text-foreground">Return:</strong> {formData.dropoffLocation || formData.pickupLocation || 'Not selected'} on {formData.returnDate || 'Not selected'}</p>
+                      <p><strong className="text-foreground">Pickup:</strong> {formData.pickupLocation || 'Not selected'} on {formData.pickupDate ? formData.pickupDate.toLocaleDateString() : 'Not selected'} at {formData.pickupTime ? formData.pickupTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Not selected'}</p>
+                      <p><strong className="text-foreground">Return:</strong> {(sameReturnLocation ? formData.pickupLocation : formData.dropoffLocation) || 'Not selected'} on {formData.returnDate ? formData.returnDate.toLocaleDateString() : 'Not selected'} at {formData.returnTime ? formData.returnTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Not selected'}</p>
                       <p><strong className="text-foreground">Vehicle:</strong> {getSelectedVehicle()?.name || 'Not selected'}</p>
                       <p><strong className="text-foreground">Extras:</strong> {formData.selectedExtras.length > 0 ? formData.selectedExtras.join(', ') : 'None'}</p>
                       <p><strong className="text-foreground">Contact:</strong> {formData.firstName} {formData.lastName}</p>
