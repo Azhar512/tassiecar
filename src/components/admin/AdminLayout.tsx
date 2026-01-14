@@ -2,6 +2,7 @@ import React from 'react';
 import AdminSidebar from './AdminSidebar';
 import { Menu, X, Bell, Search, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import SupportHub from '../SupportHub';
 
 interface AdminLayoutProps {
     children: React.ReactNode;
@@ -10,6 +11,7 @@ interface AdminLayoutProps {
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     return (
         <div className="flex min-h-screen bg-muted/30">
+            <SupportHub />
             {/* Sidebar - Desktop */}
             <div className="hidden lg:block lg:flex-shrink-0">
                 <AdminSidebar />

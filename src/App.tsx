@@ -36,7 +36,6 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Sonner />
-        <SupportHub />
         <BrowserRouter>
           <Routes>
             {/* Public Routes */}
