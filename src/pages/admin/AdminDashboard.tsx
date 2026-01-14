@@ -38,7 +38,9 @@ const AdminDashboard = () => {
 
                 const confirmed = bookings.filter(b => b.status === 'confirmed').length;
                 const cancelled = bookings.filter(b => b.status === 'cancelled').length;
-                const revenue = bookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
+                const revenue = bookings
+                    .filter(b => b.status === 'confirmed')
+                    .reduce((sum, b) => sum + (b.totalPrice || 0), 0);
 
                 setStats({
                     totalBookings: bookings.length,
@@ -200,13 +202,35 @@ const AdminDashboard = () => {
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-secondary to-secondary/80 rounded-2xl shadow-lg p-6 text-secondary-foreground relative overflow-hidden group">
-                            <TrendingUp className="w-24 h-24 absolute -bottom-4 -right-4 text-white/10 group-hover:scale-110 transition-transform duration-500" />
-                            <h4 className="font-display font-bold text-xl mb-2">Weekly Goal</h4>
-                            <p className="text-secondary-foreground/80 text-sm mb-6 font-medium">Reach $5,000 in revenue this week. You're almost there!</p>
-                            <div className="flex items-baseline gap-1">
-                                <span className="text-3xl font-extrabold uppercase">$3,420</span>
-                                <span className="text-sm font-bold opacity-60">/ $5,000</span>
+                        <div className="bg-card rounded-2xl shadow-soft border border-border/50 overflow-hidden group">
+                            <div className="relative h-48 overflow-hidden">
+                                <img
+                                    src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=800"
+                                    alt="Luxury Car"
+                                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                                <div className="absolute bottom-4 left-4">
+                                    <h4 className="font-display font-bold text-white text-xl">Executive Collection</h4>
+                                    <p className="text-white/70 text-xs font-medium uppercase tracking-widest">Premium Fleet Status</p>
+                                </div>
+                            </div>
+                            <div className="p-6">
+                                <p className="text-sm text-muted-foreground leading-relaxed">
+                                    Your premium fleet is performing exceptionally. Ensure all high-end vehicles are maintained for maximum customer satisfaction.
+                                </p>
+                                <div className="mt-4 flex items-center justify-between">
+                                    <div className="flex -space-x-2">
+                                        {[1, 2, 3].map((i) => (
+                                            <div key={i} className="w-8 h-8 rounded-full border-2 border-background bg-secondary/10 flex items-center justify-center">
+                                                <Car className="w-4 h-4 text-secondary" />
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <Button variant="ghost" size="sm" asChild className="text-secondary font-bold hover:bg-secondary/10">
+                                        <Link to="/admin/vehicles">Manage Fleet</Link>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     </div>

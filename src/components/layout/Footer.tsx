@@ -9,12 +9,11 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-6">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
-                <Car className="w-6 h-6 text-secondary-foreground" />
-              </div>
-              <div className="font-display font-bold text-xl">
-                Tassie<span className="text-secondary">Cars</span>
-              </div>
+              <img
+                src="/logo.png"
+                alt="Tassie Car Rental"
+                className="h-14 w-auto"
+              />
             </Link>
             <p className="text-primary-foreground/70 leading-relaxed">
               Explore Tasmania with confidence. Premium car rentals with exceptional service and unbeatable prices.
@@ -38,8 +37,8 @@ const Footer = () => {
             <ul className="space-y-3">
               {['Vehicles', 'Locations', 'About Us', 'Contact', 'FAQ'].map((item) => (
                 <li key={item}>
-                  <Link 
-                    to={`/${item.toLowerCase().replace(' ', '-')}`} 
+                  <Link
+                    to={`/${item.toLowerCase().replace(' ', '-')}`}
                     className="text-primary-foreground/70 hover:text-secondary transition-colors"
                   >
                     {item}
@@ -55,8 +54,8 @@ const Footer = () => {
             <ul className="space-y-3">
               {['Hobart', 'Launceston', 'Devonport', 'Hobart Airport', 'Launceston Airport'].map((location) => (
                 <li key={location}>
-                  <Link 
-                    to="/locations" 
+                  <Link
+                    to="/locations"
                     className="text-primary-foreground/70 hover:text-secondary transition-colors flex items-center gap-2"
                   >
                     <MapPin className="w-4 h-4" />

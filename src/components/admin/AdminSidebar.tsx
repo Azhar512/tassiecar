@@ -42,12 +42,13 @@ const AdminSidebar = () => {
             {/* Header/Logo */}
             <div className="px-6 mb-8">
                 <Link to="/" className="flex items-center gap-2 group">
-                    <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center group-hover:scale-105 transition-transform">
-                        <Car className="w-6 h-6 text-secondary-foreground" />
-                    </div>
-                    <div className="font-display font-bold text-xl text-foreground">
-                        Tassie<span className="text-secondary">Cars</span>
-                        <span className="block text-[10px] uppercase tracking-tighter text-muted-foreground -mt-1 font-sans">Admin Portal</span>
+                    <img
+                        src="/logo.png"
+                        alt="Tassie Car Rental"
+                        className="h-10 w-auto group-hover:scale-105 transition-transform"
+                    />
+                    <div className="font-display font-bold text-foreground">
+                        <span className="block text-[10px] uppercase tracking-tighter text-muted-foreground font-sans">Admin Portal</span>
                     </div>
                 </Link>
             </div>

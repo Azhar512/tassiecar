@@ -40,12 +40,11 @@ const Header = () => {
         <nav className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Car className="w-6 h-6 text-secondary-foreground" />
-            </div>
-            <div className={`font-display font-bold text-xl ${textColor}`}>
-              Tassie<span className="text-secondary">Cars</span>
-            </div>
+            <img
+              src="/logo.png"
+              alt="Tassie Car Rental"
+              className="h-12 w-auto group-hover:scale-105 transition-transform"
+            />
           </Link>
 
           {/* Desktop Navigation */}
