@@ -112,11 +112,17 @@ export { supabase };
 
 // Helper functions to convert between camelCase and snake_case
 function toVehicle(dbVehicle: DbVehicle): Vehicle {
+    let image = dbVehicle.image;
+    // Fix for production: redirect local asset paths to public folder
+    if (image.includes('src/assets/')) {
+        image = image.replace(/.*src\/assets\//, '/vehicles/');
+    }
+
     return {
         id: dbVehicle.id,
         name: dbVehicle.name,
         type: dbVehicle.type,
-        image: dbVehicle.image,
+        image: image,
         price: dbVehicle.price,
         passengers: dbVehicle.passengers,
         luggage: dbVehicle.luggage,
