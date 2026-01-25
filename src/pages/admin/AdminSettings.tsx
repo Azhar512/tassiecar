@@ -11,7 +11,8 @@ import {
     Lock,
     Mail,
     Smartphone,
-    Info
+    Info,
+    Trash2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -42,7 +43,7 @@ const AdminSettings = () => {
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-sm font-bold text-foreground ml-1">Support Email</label>
-                                        <input type="email" className="input-premium w-full" defaultValue="support@tassiecars.com" />
+                                        <input type="email" className="input-premium w-full" defaultValue="tassieautorentals@gmail.com" />
                                     </div>
                                 </div>
 

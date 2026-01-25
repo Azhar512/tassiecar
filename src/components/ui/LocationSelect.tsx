@@ -28,6 +28,12 @@ export const LocationSelect: React.FC<LocationSelectProps> = ({
         [value]
     );
 
+    React.useEffect(() => {
+        if (!value && locations.length === 1) {
+            onChange(locations[0].id);
+        }
+    }, [value, onChange]);
+
     const filteredLocations = useMemo(
         () => searchLocations(searchQuery),
         [searchQuery]

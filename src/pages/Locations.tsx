@@ -5,50 +5,14 @@ import { MapPin, Clock, Phone, Plane, ArrowRight } from 'lucide-react';
 
 const locations = [
   {
-    id: 'hobart',
-    name: 'Hobart City',
-    address: '123 Murray Street, Hobart TAS 7000',
-    phone: '(03) 6234 5678',
-    hours: 'Mon-Fri: 8am-6pm, Sat-Sun: 9am-5pm',
+    id: 'glenorchy',
+    name: 'TASSIE AUTOCARE PTY LTD',
+    address: '35-37 Jackson St, Glenorchy TAS 7010',
+    phone: '0401 700 033',
+    hours: 'Mon-Fri: 8am-6pm, Sat: 9am-4pm, Sun: Closed',
     airport: false,
-    description: 'Our flagship location in the heart of Hobart CBD, just minutes from the waterfront.',
-  },
-  {
-    id: 'hobart-airport',
-    name: 'Hobart Airport',
-    address: 'Hobart International Airport, Cambridge TAS 7170',
-    phone: '(03) 6248 5678',
-    hours: 'Daily: 6am-10pm',
-    airport: true,
-    description: 'Convenient pickup right at the airport terminal. Look for our shuttle service.',
-  },
-  {
-    id: 'launceston',
-    name: 'Launceston City',
-    address: '45 Brisbane Street, Launceston TAS 7250',
-    phone: '(03) 6331 5678',
-    hours: 'Mon-Fri: 8am-6pm, Sat-Sun: 9am-5pm',
-    airport: false,
-    description: 'Central location near Cataract Gorge, perfect for exploring northern Tasmania.',
-  },
-  {
-    id: 'launceston-airport',
-    name: 'Launceston Airport',
-    address: 'Launceston Airport, Western Junction TAS 7212',
-    phone: '(03) 6391 5678',
-    hours: 'Daily: 6am-9pm',
-    airport: true,
-    description: 'Located at the airport with easy access to your arriving flight.',
-  },
-  {
-    id: 'devonport',
-    name: 'Devonport',
-    address: '78 Rooke Street, Devonport TAS 7310',
-    phone: '(03) 6424 5678',
-    hours: 'Mon-Fri: 8am-5pm, Sat: 9am-3pm',
-    airport: false,
-    description: 'Near the Spirit of Tasmania ferry terminal for seamless travel connections.',
-  },
+    description: 'Our primary service center and vehicle pickup point located in Glenorchy.',
+  }
 ];
 
 const Locations = () => {
@@ -135,14 +99,14 @@ const Locations = () => {
 
           <div className="bg-card rounded-2xl overflow-hidden shadow-medium h-[400px] animate-fade-in">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d380840.74842729!2d146.7893!3d-42.8821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xaa6e758ea5f1f!2sHobart%20TAS%2C%20Australia!5e0!3m2!1sen!2s!4v1640000000000!5m2!1sen!2s"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2932.610574048888!2d147.2837318!3d-42.83151859999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xaa6e098483bbed57%3A0xc0788325a740707!2s35-37%20Jackson%20St%2C%20Glenorchy%20TAS%207010%2C%20Australia!5e0!3m2!1sen!2s!4v1706196000000!5m2!1sen!2s"
               width="100%"
               height="100%"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Our Locations Map"
+              title="TASSIE AUTOCARE Glenorchy Location"
             />
           </div>
         </div>

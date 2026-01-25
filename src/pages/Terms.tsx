@@ -26,11 +26,11 @@ const Terms = () => {
                 1. Rental Agreement
               </h2>
               <p>
-                By renting a vehicle from Tassie Car Rentals, you agree to abide by these terms and conditions. 
+                By renting a vehicle from Tassie Car Rentals, you agree to abide by these terms and conditions.
                 The rental agreement is between you (the Renter) and Tassie Car Rentals Pty Ltd (the Company).
               </p>
               <p>
-                You must be at least 21 years of age and hold a valid driver's license for the class of vehicle 
+                You must be at least 21 years of age and hold a valid driver's license for the class of vehicle
                 being rented. Additional driver requirements may apply for certain vehicle categories.
               </p>
             </div>
@@ -40,7 +40,7 @@ const Terms = () => {
                 2. Vehicle Use
               </h2>
               <p>
-                The vehicle may only be driven by authorized drivers listed on the rental agreement. 
+                The vehicle may only be driven by authorized drivers listed on the rental agreement.
                 The vehicle must not be used:
               </p>
               <ul className="list-disc pl-6 mt-4 space-y-2">
@@ -58,11 +58,11 @@ const Terms = () => {
                 3. Insurance & Liability
               </h2>
               <p>
-                Basic Collision Damage Waiver (CDW) is included with all rentals. This limits your liability 
+                Basic Collision Damage Waiver (CDW) is included with all rentals. This limits your liability
                 in the event of an accident, subject to the excess amount stated in your rental agreement.
               </p>
               <p className="mt-4">
-                You are liable for all traffic fines, tolls, and parking infringements incurred during the 
+                You are liable for all traffic fines, tolls, and parking infringements incurred during the
                 rental period. An administration fee may apply for processing such matters.
               </p>
             </div>
@@ -72,7 +72,7 @@ const Terms = () => {
                 4. Fuel Policy
               </h2>
               <p>
-                Vehicles are provided with a full tank of fuel and must be returned with a full tank. 
+                Vehicles are provided with a full tank of fuel and must be returned with a full tank.
                 If returned with less fuel, you will be charged the refueling cost plus a service fee.
               </p>
             </div>
@@ -82,7 +82,7 @@ const Terms = () => {
                 5. Cancellation Policy
               </h2>
               <p>
-                Free cancellation is available up to 24 hours before your scheduled pickup time. 
+                Free cancellation is available up to 24 hours before your scheduled pickup time.
                 Cancellations made within 24 hours of pickup may incur a fee equivalent to one day's rental.
               </p>
             </div>
@@ -95,9 +95,9 @@ const Terms = () => {
                 If you have any questions about these Terms & Conditions, please contact us at:
               </p>
               <p className="mt-4">
-                Email: legal@tassiecars.com.au<br />
-                Phone: 1300 123 456<br />
-                Address: 123 Murray Street, Hobart TAS 7000
+                Email: tassieautorentals@gmail.com<br />
+                Phone: 0401 700 033<br />
+                Address: 35-37 Jackson St, Glenorchy TAS 7010
               </p>
             </div>
           </div>

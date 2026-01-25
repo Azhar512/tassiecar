@@ -18,8 +18,8 @@ const features = [
   },
   {
     icon: Clock,
-    title: 'Flexible Options',
-    description: 'Multiple pickup and drop-off locations with extended hours to suit your schedule.',
+    title: 'Easy Pickup',
+    description: 'Convenient central location in Glenorchy with extended hours to suit your schedule.',
   },
 ];
 
@@ -76,8 +76,8 @@ const WhyChooseUs = () => {
               <div className="text-muted-foreground">Happy Customers</div>
             </div>
             <div className="bg-primary text-primary-foreground p-8 rounded-2xl text-center mt-4">
-              <div className="font-display text-4xl md:text-5xl font-bold mb-2">5</div>
-              <div className="text-primary-foreground/70">Locations</div>
+              <div className="font-display text-4xl md:text-5xl font-bold mb-2">1</div>
+              <div className="text-primary-foreground/70">Central Location</div>
             </div>
           </div>
         </div>

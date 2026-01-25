@@ -160,10 +160,10 @@ const ManageBooking = () => {
                         </p>
                         <div className="flex flex-wrap gap-4 justify-center">
                             <a
-                                href="tel:+61234567890"
+                                href="tel:0401700033"
                                 className="inline-flex items-center gap-2 px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-semibold hover:brightness-110 transition-all"
                             >
-                                Call Us: +61 2 3456 7890
+                                Call Us: 0401 700 033
                             </a>
                             <a
                                 href="/contact"

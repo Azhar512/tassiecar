@@ -26,7 +26,7 @@ const Privacy = () => {
                 1. Information We Collect
               </h2>
               <p>
-                We collect information you provide directly to us, such as when you create an account, 
+                We collect information you provide directly to us, such as when you create an account,
                 make a booking, or contact us for support. This may include:
               </p>
               <ul className="list-disc pl-6 mt-4 space-y-2">
@@ -72,7 +72,7 @@ const Privacy = () => {
                 4. Data Security
               </h2>
               <p>
-                We implement appropriate technical and organizational measures to protect your personal 
+                We implement appropriate technical and organizational measures to protect your personal
                 information against unauthorized access, alteration, disclosure, or destruction.
               </p>
             </div>
@@ -100,9 +100,9 @@ const Privacy = () => {
                 If you have any questions about this Privacy Policy, please contact our Privacy Officer at:
               </p>
               <p className="mt-4">
-                Email: privacy@tassiecars.com.au<br />
-                Phone: 1300 123 456<br />
-                Address: 123 Murray Street, Hobart TAS 7000
+                Email: tassieautorentals@gmail.com<br />
+                Phone: 0401 700 033<br />
+                Address: 35-37 Jackson St, Glenorchy TAS 7010
               </p>
             </div>
           </div>

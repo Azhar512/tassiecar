@@ -15,7 +15,7 @@ const faqCategories = [
     faqs: [
       {
         question: 'How do I book a car?',
-        answer: 'You can book a car through our website by selecting your pickup/drop-off locations and dates, choosing a vehicle, and completing the booking form. Alternatively, call us at 1300 123 456 or visit any of our locations.',
+        answer: 'You can book a car through our website by selecting your pickup/drop-off dates, choosing a vehicle, and completing the booking form. Alternatively, call us at 0401 700 033 or visit our location in Glenorchy.',
       },
       {
         question: 'Can I modify or cancel my booking?',
@@ -23,7 +23,7 @@ const faqCategories = [
       },
       {
         question: 'Do you offer one-way rentals?',
-        answer: 'Yes, we offer one-way rentals between all our locations. An additional fee may apply depending on the pickup and drop-off locations.',
+        answer: 'Our vehicles are currently available for pickup and return at our Glenorchy location.',
       },
     ],
   },
@@ -83,7 +83,7 @@ const faqCategories = [
     faqs: [
       {
         question: 'Do you offer airport pickup?',
-        answer: 'Yes, we have locations at both Hobart and Launceston airports. For flight arrivals, we offer a free shuttle service from the terminal to our airport office.',
+        answer: 'Our main location is in Glenorchy, which is easily accessible from Hobart and surrounding areas.',
       },
       {
         question: 'What happens if I return the car late?',
@@ -91,7 +91,7 @@ const faqCategories = [
       },
       {
         question: 'Can I return the car outside of business hours?',
-        answer: 'Yes, after-hours returns are available at most locations using our secure key drop box. You must arrange this in advance and follow the after-hours return procedure.',
+        answer: 'Yes, after-hours returns are available using our secure key drop box. You must arrange this in advance and follow the after-hours return procedure.',
       },
     ],
   },

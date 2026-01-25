@@ -50,19 +50,17 @@ const Footer = () => {
 
           {/* Locations */}
           <div>
-            <h4 className="font-display text-lg font-semibold mb-6">Our Locations</h4>
+            <h4 className="font-display text-lg font-semibold mb-6">Our Location</h4>
             <ul className="space-y-3">
-              {['Hobart', 'Launceston', 'Devonport', 'Hobart Airport', 'Launceston Airport'].map((location) => (
-                <li key={location}>
-                  <Link
-                    to="/locations"
-                    className="text-primary-foreground/70 hover:text-secondary transition-colors flex items-center gap-2"
-                  >
-                    <MapPin className="w-4 h-4" />
-                    {location}
-                  </Link>
-                </li>
-              ))}
+              <li key="glenorchy">
+                <Link
+                  to="/locations"
+                  className="text-primary-foreground/70 hover:text-secondary transition-colors flex items-center gap-2"
+                >
+                  <MapPin className="w-4 h-4" />
+                  Glenorchy
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -71,20 +69,20 @@ const Footer = () => {
             <h4 className="font-display text-lg font-semibold mb-6">Contact Us</h4>
             <ul className="space-y-4">
               <li>
-                <a href="tel:1300123456" className="text-primary-foreground/70 hover:text-secondary transition-colors flex items-center gap-3">
+                <a href="tel:0401700033" className="text-primary-foreground/70 hover:text-secondary transition-colors flex items-center gap-3">
                   <Phone className="w-5 h-5" />
-                  1300 123 456
+                  0401 700 033
                 </a>
               </li>
               <li>
-                <a href="mailto:hello@tassiecars.com.au" className="text-primary-foreground/70 hover:text-secondary transition-colors flex items-center gap-3">
+                <a href="mailto:tassieautorentals@gmail.com" className="text-primary-foreground/70 hover:text-secondary transition-colors flex items-center gap-3">
                   <Mail className="w-5 h-5" />
-                  hello@tassiecars.com.au
+                  tassieautorentals@gmail.com
                 </a>
               </li>
               <li className="text-primary-foreground/70 flex items-start gap-3">
                 <MapPin className="w-5 h-5 mt-0.5" />
-                <span>123 Murray Street<br />Hobart, TAS 7000</span>
+                <span>35-37 Jackson St<br />Glenorchy TAS 7010</span>
               </li>
             </ul>
           </div>

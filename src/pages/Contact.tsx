@@ -172,10 +172,10 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">Phone</h3>
-                      <a href="tel:1300123456" className="text-muted-foreground hover:text-secondary transition-colors">
-                        1300 123 456
+                      <a href="tel:0401700033" className="text-muted-foreground hover:text-secondary transition-colors">
+                        0401 700 033
                       </a>
-                      <p className="text-sm text-muted-foreground">Available 24/7 for emergencies</p>
+                      <p className="text-sm text-muted-foreground">Available 24/7 for assistance</p>
                     </div>
                   </div>
 
@@ -185,8 +185,8 @@ const Contact = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">Email</h3>
-                      <a href="mailto:hello@tassiecars.com.au" className="text-muted-foreground hover:text-secondary transition-colors">
-                        hello@tassiecars.com.au
+                      <a href="mailto:tassieautorentals@gmail.com" className="text-muted-foreground hover:text-secondary transition-colors">
+                        tassieautorentals@gmail.com
                       </a>
                       <p className="text-sm text-muted-foreground">We reply within 24 hours</p>
                     </div>
@@ -197,9 +197,10 @@ const Contact = () => {
                       <MapPin className="w-6 h-6 text-secondary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Head Office</h3>
-                      <p className="text-muted-foreground">123 Murray Street</p>
-                      <p className="text-muted-foreground">Hobart, TAS 7000</p>
+                      <h3 className="font-semibold text-foreground mb-1">Location</h3>
+                      <p className="text-muted-foreground font-semibold">TASSIE AUTOCARE PTY LTD</p>
+                      <p className="text-muted-foreground">35-37 Jackson St</p>
+                      <p className="text-muted-foreground">Glenorchy, TAS 7010</p>
                     </div>
                   </div>
 
@@ -208,9 +209,10 @@ const Contact = () => {
                       <Clock className="w-6 h-6 text-secondary" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Support Hours</h3>
-                      <p className="text-muted-foreground">Mon-Fri: 8am - 8pm</p>
-                      <p className="text-muted-foreground">Sat-Sun: 9am - 6pm</p>
+                      <h3 className="font-semibold text-foreground mb-1">Operating Hours</h3>
+                      <p className="text-muted-foreground">Mon-Fri: 8am - 6pm</p>
+                      <p className="text-muted-foreground">Sat: 9am - 4pm</p>
+                      <p className="text-muted-foreground">Sun: Closed</p>
                     </div>
                   </div>
                 </div>
@@ -219,14 +221,14 @@ const Contact = () => {
               {/* Map */}
               <div className="bg-card rounded-2xl overflow-hidden shadow-soft h-[300px]">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2930.2!2d147.3294!3d-42.8821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xaa6e758ea5f1f!2sMurray%20St%2C%20Hobart%20TAS!5e0!3m2!1sen!2s!4v1640000000000!5m2!1sen!2s"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2932.610574048888!2d147.2837318!3d-42.83151859999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xaa6e098483bbed57%3A0xc0788325a740707!2s35-37%20Jackson%20St%2C%20Glenorchy%20TAS%207010%2C%20Australia!5e0!3m2!1sen!2s!4v1706196000000!5m2!1sen!2s"
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
-                  title="Office Location"
+                  title="TASSIE AUTOCARE Location"
                 />
               </div>
             </div>

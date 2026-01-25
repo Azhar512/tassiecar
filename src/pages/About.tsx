@@ -47,7 +47,7 @@ const About = () => {
               <span className="block text-secondary mt-2">Car Rental Experts</span>
             </h1>
             <p className="text-xl text-primary-foreground/80 animate-fade-in animation-delay-100">
-              For over a decade, we've been helping travelers discover the magic of Tasmania. 
+              For over a decade, we've been helping travelers discover the magic of Tasmania.
               Born and bred locals, we're passionate about sharing our beautiful island with the world.
             </p>
           </div>
@@ -64,17 +64,17 @@ const About = () => {
               </h2>
               <div className="space-y-4 text-muted-foreground text-lg">
                 <p>
-                  Tassie Car Rentals was founded in 2014 by a group of friends who shared a common 
+                  Tassie Car Rentals was founded in 2014 by a group of friends who shared a common
                   frustration: why was it so difficult to rent a quality car in Tasmania at a fair price?
                 </p>
                 <p>
-                  We set out to change that. Starting with just three vehicles and a tiny office in 
-                  Hobart, we built our business on a simple promise: exceptional service, transparent 
+                  We set out to change that. Starting with just three vehicles and a tiny office in
+                  Glenorchy, we built our business on a simple promise: exceptional service, transparent
                   pricing, and cars that are maintained to the highest standards.
                 </p>
                 <p>
-                  Today, we're proud to operate across five locations with a fleet of over 50 premium 
-                  vehicles. But we've never forgotten our roots. We're still the same friendly team 
+                  Today, we're proud to operate from our central location in Glenorchy with a fleet of over 50 premium
+                  vehicles. But we've never forgotten our roots. We're still the same friendly team
                   that treats every customer like family.
                 </p>
               </div>
