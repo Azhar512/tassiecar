@@ -13,7 +13,7 @@ import { DateTimePicker, TimePicker } from '@/components/ui/DateTimePicker';
 const extras = [
   { id: 'gps', name: 'GPS Navigation', price: 10, icon: Navigation },
   { id: 'child-seat', name: 'Child Seat', price: 15, icon: Baby },
-  { id: 'insurance', name: 'Premium Insurance', price: 25, icon: Shield },
+  { id: 'insurance', name: 'Premium Insurance', price: 25, icon: Shield, dynamicPrice: (days: number) => days < 2 ? 90 : 25 },
   { id: 'wifi', name: 'Mobile WiFi Hotspot', price: 12, icon: Wifi },
 ];
 
@@ -88,7 +88,14 @@ const Booking = () => {
 
     const extrasTotal = formData.selectedExtras.reduce((sum, extraId) => {
       const extra = extras.find((e) => e.id === extraId);
-      return sum + (extra ? extra.price * days : 0);
+      if (!extra) return sum;
+
+      if (extra.id === 'insurance') {
+        const insurancePrice = days < 2 ? 90 : 25 * days;
+        return sum + insurancePrice;
+      }
+
+      return sum + (price * days);
     }, 0);
 
     return basePrice * days + extrasTotal;
@@ -460,7 +467,11 @@ const Booking = () => {
                           </div>
                           <div className="flex-1 text-left">
                             <div className="font-semibold text-foreground">{extra.name}</div>
-                            <div className="text-sm text-muted-foreground">${extra.price}/day</div>
+                            <div className="text-sm text-muted-foreground">
+                              {extra.id === 'insurance'
+                                ? `$90 (1 day) / $25/day (2+ days)`
+                                : `$${extra.price}/day`}
+                            </div>
                           </div>
                           <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${formData.selectedExtras.includes(extra.id)
                             ? 'border-secondary bg-secondary'
@@ -608,7 +619,11 @@ const Booking = () => {
                     return extra ? (
                       <div key={extra.id} className="flex justify-between">
                         <span className="text-muted-foreground">{extra.name} ({calculateDays()} days)</span>
-                        <span className="font-semibold text-foreground">${extra.price * calculateDays()}.00</span>
+                        <span className="font-semibold text-foreground">
+                          ${extra.id === 'insurance'
+                            ? (calculateDays() < 2 ? 90 : 25 * calculateDays())
+                            : extra.price * calculateDays()}.00
+                        </span>
                       </div>
                     ) : null;
                   })}

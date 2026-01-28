@@ -15,7 +15,7 @@ export const vehicleCategories: VehicleCategory[] = [
         description: 'Fuel-efficient and affordable vehicles perfect for city driving and daily commutes',
         icon: '🚗',
         features: ['Fuel Efficient', 'Easy Parking', 'Affordable', 'City Friendly'],
-        priceRange: 'From $45/day',
+        priceRange: 'From $75/day',
         vehicleType: 'Economy'
     },
     {
@@ -24,7 +24,7 @@ export const vehicleCategories: VehicleCategory[] = [
         description: 'Spacious and capable vehicles ideal for Tasmania\'s rugged terrain and family adventures',
         icon: '🚙',
         features: ['4WD Capable', 'Spacious', 'Off-Road Ready', 'Family Friendly'],
-        priceRange: 'From $89/day',
+        priceRange: 'From $145/day',
         vehicleType: 'SUV'
     },
     {
@@ -33,7 +33,7 @@ export const vehicleCategories: VehicleCategory[] = [
         description: 'Premium vehicles offering superior comfort, style, and advanced features',
         icon: '✨',
         features: ['Premium Comfort', 'Advanced Tech', 'Prestige', 'Luxury Interior'],
-        priceRange: 'From $149/day',
+        priceRange: 'From $110/day',
         vehicleType: 'Luxury'
     },
     {

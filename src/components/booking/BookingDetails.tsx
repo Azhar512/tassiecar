@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 
 interface Booking {
     id: string;
-    confirmationCode: string;
+    confirmationCode?: string;
     vehicleId: string;
     vehicleName?: string;
     vehicleImage?: string;
@@ -66,7 +66,7 @@ export const BookingDetails: React.FC<BookingDetailsProps> = ({
                             Booking Confirmation
                         </h2>
                         <p className="text-lg text-muted-foreground font-mono">
-                            {booking.confirmationCode}
+                            {booking.confirmationCode || booking.id.split('-')[0].toUpperCase()}
                         </p>
                     </div>
                     <div className={`px-4 py-2 rounded-full flex items-center gap-2 ${status.color}`}>
